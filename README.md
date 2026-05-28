@@ -71,3 +71,20 @@ export default defineConfig([
   },
 ])
 ```
+
+## Study Docs
+
+- 任务总表：`docs/TASKS.md`
+- 知识点笔记：`docs/KNOWLEDGE.md`
+- 行业通用规范：`docs/INDUSTRY-PRACTICES.md`
+- Nitro 专项知识：`docs/NITRO-KNOWLEDGE.md`
+- 后台必要元素总表：`docs/ADMIN-SYSTEM-ELEMENTS.md`
+- Git 提交与更新记录：`docs/GIT-WORKFLOW-LOG.md`
+- API 契约文档：`docs/API-CONTRACT.md`
+- 架构决策记录：`docs/ADR.md`
+- 环境与发布文档：`docs/ENV-RELEASE.md`
+
+## Project Skill
+
+- 项目技能入口：`skills/antd-admin-learning-coach/SKILL.md`
+- 代理协作入口：`AGENTS.md`
