@@ -2,7 +2,9 @@
 
 import { useLocation, useNavigate } from "react-router";
 import { Layout, Menu } from "antd";
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
+
+import { menuRoutes } from "@/router";
+import { routesToMenuItems } from "./helper";
 
 const { Sider } = Layout;
 
@@ -12,14 +14,16 @@ const { Sider } = Layout;
 //   label: `nav ${index + 1}`
 // }))
 
-const items = [
-  { key: "/welcome", icon: <UserOutlined />, label: "欢迎" },
-  { key: "/dashboard", icon: <VideoCameraOutlined />, label: "仪表盘" },
-  { key: "/dashboard/workspace", icon: <UploadOutlined />, label: "工作台" },
-  { key: "/monitor", icon: <UserOutlined />, label: "监控" },
-];
+// const items = [
+//   { key: "/welcome", icon: "UserOutlined", label: "欢迎" },
+//   { key: "/dashboard", icon: "VideoCameraOutlined", label: "仪表盘" },
+//   { key: "/dashboard/workspace", icon: "UploadOutlined", label: "工作台" },
+//   { key: "/monitor", icon: "UserOutlined", label: "监控" },
+// ];
 
 export default function TtSider() {
+  const items = routesToMenuItems(menuRoutes);
+  console.log("items", items);
   // const [theme, setTheme] = useState<"light" | "dark">("dark");
   const navigate = useNavigate();
   const { pathname } = useLocation();

@@ -1,30 +1,74 @@
 import { createBrowserRouter, Navigate } from "react-router";
 
 import App from "../App";
+import { routeSourceMode } from "@/config/app";
+import type { AppRouteObject } from "./types";
+import type { RouteObject } from "react-router";
 
 import Login from "@/pages/login";
+import AuthGuard from "./auth-guard";
 import NotFound from "@/pages/error-page/404";
+import Error403 from "@/pages/error-page/403";
+
 import Welcome from "@/pages/welcome";
 import Monitor from "@/pages/dashboard/monitor";
 import Workspace from "@/pages/dashboard/workspace";
+import About from "@/pages/about";
 
-const router = createBrowserRouter([
+export const menuRoutes: AppRouteObject[] = [
+  {
+    path: "welcome",
+    Component: Welcome,
+    meta: { title: "欢迎", icon: "UserOutlined", hideInMenu: false },
+  },
+  {
+    path: "dashboard",
+    meta: { title: "仪表盘", icon: "UserOutlined", hideInMenu: false },
+    children: [
+      {
+        index: true,
+        Component: Monitor,
+      },
+      {
+        path: "monitor",
+        Component: Monitor,
+        meta: { title: "监控", icon: "UserOutlined", hideInMenu: false },
+      },
+      {
+        path: "workspace",
+        Component: Workspace,
+        meta: { title: "工作台", icon: "UserOutlined", hideInMenu: false },
+      },
+    ],
+  },
+  {
+    path: "about",
+    Component: About,
+    meta: { title: "关于", icon: "UserOutlined", hideInMenu: false },
+  },
+];
+
+export const appRoutes: AppRouteObject[] = [
   {
     path: "/login",
     element: <Login />,
+    meta: { title: "登录", hideInMenu: true },
   },
   {
     path: "/",
-    element: <App />,
+    // element: <App />,
+    element: (
+      <AuthGuard>
+        <App />
+      </AuthGuard>
+    ),
     children: [
-      { path: "welcome", Component: Welcome },
+      { index: true, element: <Navigate to="welcome" replace /> },
+      ...menuRoutes,
       {
-        path: "dashboard",
-        children: [
-          { index: true, element: <Navigate to="monitor" replace /> },
-          { path: "monitor", Component: Monitor },
-          { path: "workspace", Component: Workspace },
-        ],
+        path: "403",
+        Component: Error403,
+        meta: { title: "403", hideInMenu: true },
       },
     ],
   },
@@ -32,9 +76,10 @@ const router = createBrowserRouter([
     path: "*",
     element: <NotFound />,
   },
-]);
+];
+const router = createBrowserRouter(appRoutes as RouteObject[]);
 
 const frontendRouter = router;
 const backendRouter = router;
-const mode = import.meta.env.VITE_ROUTE_SOURCE_MODE;
-export default mode === "frontend" ? frontendRouter : backendRouter;
+
+export default routeSourceMode === "frontend" ? frontendRouter : backendRouter;
