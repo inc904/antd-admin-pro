@@ -1,20 +1,22 @@
-import { useState } from 'react'
-import { ConfigProvider, theme as antdTheme, Button } from 'antd'
+// import { useState } from 'react'
+import {
+  ConfigProvider
+  // theme as antdTheme
+} from 'antd'
 import zhCN from 'antd/locale/zh_CN'
-import TestPage from '@/pages/test'
 import Layout from '@/layouts/index'
+import { Outlet } from 'react-router'
 function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  // const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+
+  // theme={{
+  //       // 🔑 根据状态动态决定切换哪种算法
+  //       algorithm: theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm
+
   return (
-    <ConfigProvider
-      locale={zhCN}
-      theme={{
-        // 🔑 根据状态动态决定切换哪种算法
-        algorithm: theme === 'dark' ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm
-      }}>
+    <ConfigProvider locale={zhCN}>
       <Layout>
-        <TestPage />
-        <Button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>切换主题</Button>
+        <Outlet />
       </Layout>
     </ConfigProvider>
   )
