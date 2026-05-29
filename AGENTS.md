@@ -19,6 +19,10 @@
   - `docs/API-CONTRACT.md`
   - `docs/ADR.md`
   - `docs/ENV-RELEASE.md`
+- Documentation ownership rule:
+  - Assistant updates docs by default.
+  - User reviews and confirms.
+  - Do not ask user to manually edit docs unless explicitly requested.
 
 ## Architecture Guardrails
 - Keep dual route-source support: `frontend` and `backend`.
@@ -30,4 +34,3 @@
 ## Commit Coaching
 - Suggest commit when a milestone is testable.
 - Follow Conventional Commit style and record key updates in `docs/GIT-WORKFLOW-LOG.md`.
-
