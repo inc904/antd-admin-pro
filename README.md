@@ -88,3 +88,7 @@ export default defineConfig([
 
 - 项目技能入口：`skills/antd-admin-learning-coach/SKILL.md`
 - 代理协作入口：`AGENTS.md`
+
+## Mainline Continuation
+
+- 主线执行看板入口：`docs/TASKS.md` 的 `5.1 主线执行看板（跨对话续跑）`
