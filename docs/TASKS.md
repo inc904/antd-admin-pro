@@ -1,12 +1,12 @@
 # Antd Admin Pro 学习与开发任务总表
 
-更新时间：2026-05-29
+更新时间：2026-06-04
 
 ## 1. 使用说明
 - 本文档是你的长期任务总表，目标是用 React 学明白后台系统开发，同时逐步完成一个可演示、可扩展的类 Ant Design Pro 项目。
 - 任务状态用复选框管理：`[ ]` 未开始，`[x]` 已完成。
 - 推荐节奏：每周 1 个主题迭代，每天 1~2 个可交付小任务。
-- 文档联动规则：每次周任务结束，必须同步更新 `TASKS.md`、`KNOWLEDGE.md`、`INDUSTRY-PRACTICES.md`、`NITRO-KNOWLEDGE.md`、`ADMIN-SYSTEM-ELEMENTS.md`、`GIT-WORKFLOW-LOG.md`、`API-CONTRACT.md`、`ADR.md`、`ENV-RELEASE.md`。
+- 文档联动规则：每次周任务结束，必须同步更新 `TASKS.md`、`KNOWLEDGE.md`、`INDUSTRY-PRACTICES.md`、`NITRO-KNOWLEDGE.md`、`ADMIN-SYSTEM-ELEMENTS.md`、`GIT-WORKFLOW-LOG.md`、`API-CONTRACT.md`、`ADR.md`、`ENV-RELEASE.md`、`REACT-QUERY-KNOWLEDGE.md`。
 - 学习方式：默认采用 React/Vue 对照学习，帮助你把既有 Vue 经验快速迁移到 React。
 - 文档维护责任：由 AI 助手更新文档，用户审核确认；除非用户特别要求，否则不再让用户手工维护文档。
 
@@ -226,6 +226,36 @@
 - 接入 React Query 最小闭环（query + mutation + invalidate）
 - 为 Nitro mock 对接准备服务层目录结构
 
+## 5.3 主线执行看板（Day 3）
+
+### 当前主线
+- 主题：第 1 周 Day 3 - 请求层、React Query 与用户列表增改闭环
+- 状态：已完成
+- 目标：打通 `request -> service -> useQuery/useMutation -> UI` 的最小数据链路，并在无后端时通过本地 mock 降级保证流程可跑通。
+
+### Day 3 任务清单（执行版）
+- [x] D3-1 建立统一请求层（`axios` + 拦截器 + 鉴权头）
+- [x] D3-2 建立用户 API 模块（列表/创建/更新）
+- [x] D3-3 用户列表页改为通过 service 层拉取数据
+- [x] D3-4 接入 `QueryClientProvider`
+- [x] D3-5 用户列表使用 `useQuery`
+- [x] D3-6 创建用户使用 `useMutation` 并刷新列表
+- [x] D3-7 无服务端时通过本地 mock 降级保证列表与创建可用
+- [x] D3-8 编辑用户复用弹窗并完成回填、更新、刷新列表
+
+### Day 3 验收标准
+- [x] A1 列表可通过请求层稳定加载
+- [x] A2 创建用户成功后列表自动刷新
+- [x] A3 编辑用户成功后列表自动刷新
+- [x] A4 请求失败时有本地 mock 降级
+- [x] A5 `pnpm lint` 通过
+- [x] A6 `pnpm build` 通过
+
+### Day 3 完成后下一步（Day 4 入口）
+- 接入 Nitro 本地 API，替代当前 service 层的 mock 降级
+- 将删除用户也接入 mutation 与缓存失效
+- 统一表单弹窗为可复用的 create/edit 模式组件
+
 ### 新对话续跑指引
 - 新开对话时先说明：`请从 docs/TASKS.md 的“5.1 主线执行看板”继续`
 - 同时附加：`当前已完成的 D1-x 项`
@@ -245,3 +275,5 @@
 | 2026-05-29 | Day1 验收更新 | 完成 | 路由骨架与构建基线通过，待手工路由场景收口 |
 | 2026-05-29 | Day2 验收更新 | 完成 | 菜单配置驱动化、路由守卫、TS 类型问题收口 |
 | 2026-05-29 | 文档协作约定更新 | 完成 | 文档由助手维护，用户审核确认 |
+| 2026-05-29 | React Query 文档建立 | 完成 | 新增 React Query 专项学习文档并接入文档体系 |
+| 2026-06-04 | Day3 验收更新 | 完成 | 请求层、React Query、创建/编辑与本地 mock 降级闭环 |

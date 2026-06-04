@@ -1,11 +1,12 @@
 declare namespace Api.User {
-  interface UserItem {
-    id: number;
+  interface UserInfo {
     name: string;
     age: number;
     address: string;
     tags: string[];
   }
 
-  // type UserListResponse = Api.Http.Response<UserItem[]>;
+  type UserListItem = UserInfo & {
+    id: number;
+  };
 }

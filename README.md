@@ -83,6 +83,7 @@ export default defineConfig([
 - API 契约文档：`docs/API-CONTRACT.md`
 - 架构决策记录：`docs/ADR.md`
 - 环境与发布文档：`docs/ENV-RELEASE.md`
+- React Query 学习笔记：`docs/REACT-QUERY-KNOWLEDGE.md`
 
 ## Project Skill
 

@@ -1,6 +1,6 @@
 # Nitro 知识点笔记（学习 + 项目实战）
 
-更新时间：2026-05-28
+更新时间：2026-05-29
 
 ## 1. 文档目标
 - 目标 1：系统学习 Nitro，而不是只把它当临时 mock 工具。
@@ -68,6 +68,103 @@
   - `src/services/*` 统一请求 Nitro API
   - `src/features/*` 通过 React Query 消费数据
 
+## 5.1 前后端交互类型约定（先定义再开发）
+
+### A. 统一响应包（Nitro -> 前端）
+```ts
+type ApiBaseResponse<T> = {
+  code: number;      // HTTP 风格状态码：200=成功，4xx/5xx=失败
+  message: string;   // 提示文案
+  data: T;           // 业务数据
+};
+```
+
+约定：
+- 成功：`code = 200`
+- 失败：`code >= 400`
+- 与 `docs/API-CONTRACT.md` 保持一致
+
+### B. 分页数据结构
+```ts
+type PageResult<T> = {
+  list: T[];
+  page: number;
+  pageSize: number;
+  total: number;
+};
+```
+
+### C. 用户模块 DTO（Day3 当前优先）
+```ts
+type UserItem = {
+  id: number;
+  name: string;
+  age: number;
+  address: string;
+  tags: string[];
+};
+
+type GetUserListQuery = {
+  page?: number;
+  pageSize?: number;
+  keyword?: string;
+};
+
+type CreateUserPayload = {
+  name: string;
+  age: number;
+  address: string;
+  tags: string[];
+};
+
+type CreateUserResponse = UserItem; // 推荐返回新建对象
+```
+
+### D. 菜单与权限 DTO（为动态路由预留）
+```ts
+type AppRouteMeta = {
+  title: string;
+  icon?: string;        // 用字符串，避免 JSX 在后端不可序列化
+  hideInMenu?: boolean;
+  roles?: string[];
+};
+
+type AppRouteNode = {
+  path: string;
+  name?: string;
+  component?: string;   // 后端返回组件标识，前端映射
+  meta?: AppRouteMeta;
+  children?: AppRouteNode[];
+};
+```
+
+### E. 错误码建议（最小集）
+```ts
+type ErrorCode =
+  | 200 // 成功
+  | 400 // 参数错误
+  | 401 // 未登录/登录过期
+  | 403 // 无权限
+  | 404 // 资源不存在
+  | 500; // 服务异常
+```
+
+### F. 项目落地建议（类型文件映射）
+- 前端类型位置：
+  - `src/types/common/response.ts`：`ApiBaseResponse<T>`
+  - `src/types/api/user.d.ts`：`UserItem`、`CreateUserPayload`
+  - `src/types/router/*`：`AppRouteMeta`、`AppRouteNode`
+- Nitro 服务端实现：
+  - `server/api/user/list.get.ts`
+  - `server/api/user/index.post.ts`
+  - `server/api/system/menus.get.ts`
+
+### G. 校验清单（每次新增接口都过一遍）
+- [ ] 是否返回统一 `ApiBaseResponse<T>`
+- [ ] `code` 是否遵循 HTTP 风格（`200` 成功）
+- [ ] 前端 service 返回值类型是否与 DTO 一致
+- [ ] 页面是否只消费 service，不直接拼响应结构
+
 ## 6. 知识卡片模板（复制使用）
 ```md
 ### 主题（例如：Nitro 文件路由）
@@ -91,4 +188,4 @@
 | 日期 | 变更 | 备注 |
 | --- | --- | --- |
 | 2026-05-28 | 文档初始化 | 建立 Nitro 学习与项目落地主线 |
-
+| 2026-05-29 | 新增交互类型约定 | 定义响应包、分页、用户、菜单、错误码 DTO |

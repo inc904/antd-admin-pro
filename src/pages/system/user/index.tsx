@@ -1,64 +1,61 @@
-import React, { useEffect, useState } from "react";
-import { Flex, Space, Table, Tag } from "antd";
-import type { TableProps } from "antd";
+import { useState } from "react";
+import { Button, Table } from "antd";
+import { useQuery } from "@tanstack/react-query";
 
-import { reqGetUserList } from "@/services/user";
+import { reqDeleteUser, reqGetUserList } from "@/services/user";
+import { UserInfoDialog } from "./userinfo-dialog";
+import { getUserColumns } from "./columns";
 
-type DataType = Api.User.UserItem & { key: string };
+type UserListItem = Api.User.UserListItem;
 
-const columns: TableProps<DataType>["columns"] = [
-  { title: "Name", dataIndex: "name", key: "name", render: (text) => <a>{text}</a> },
-  { title: "Age", dataIndex: "age", key: "age" },
-  { title: "Address", dataIndex: "address", key: "address" },
-  {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    render: (_, { tags }) => (
-      <Flex gap="small" align="center" wrap>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "kawaii") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </Flex>
-    ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="medium">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
 
-const UserManagement: React.FC = () => {
-  const [data, setData] = useState<DataType[]>([]);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const load = async () => {
-      setLoading(true);
-      try {
-        const list = await reqGetUserList();
-        setData(list.map((item: Api.User.UserItem) => ({ ...item, key: String(item.id) })));
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
 
-  return <Table<DataType> rowKey="id" columns={columns} loading={loading} dataSource={data} />;
+const UserManagement = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<"create" | "edit">("create");
+  const [currentRecord, setCurrentRecord] = useState<UserListItem | null>(null);
+
+
+  const columns = getUserColumns({
+    onEdit: (record) => {
+      setModalType("edit");
+      setCurrentRecord(record);
+      setIsModalOpen(true);
+    },
+    onDelete: (record) => {
+      handleDelete(record.id);
+    },
+  });
+  const { isLoading, data = [] } = useQuery({ queryKey: ["userList"], queryFn: reqGetUserList });
+
+  const showModal = () => {
+    setModalType("create");
+    setCurrentRecord(null);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModel = () => {
+    setIsModalOpen(false);
+    setCurrentRecord(null);
+  };
+
+  const handleDelete = (id: number) => {
+    // TODO: 实现删除逻辑
+    console.log("删除用户", id);
+    reqDeleteUser(id);
+  };
+
+  return (
+    <>
+      <Button type="primary" onClick={showModal} className="mb-4">
+        创建用户
+      </Button>
+
+      <Table<UserListItem> rowKey="id" columns={columns} loading={isLoading} dataSource={data} />
+
+      <UserInfoDialog isOpen={isModalOpen} onClose={handleCloseModel} type={modalType} record={currentRecord} />
+    </>
+  );
 };
 
 export default UserManagement;

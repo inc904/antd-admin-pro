@@ -35,6 +35,7 @@ request.interceptors.response.use(
   (response) => {
     // 处理响应数据
     const { code, data, message } = response.data;
+    console.log(' response', response)
 
     // 处理其他业务逻辑
     // 例如：token过期、权限不足等
@@ -51,7 +52,7 @@ request.interceptors.response.use(
       // 服务器错误
       console.error(message);
       return Promise.reject(new Error(message || "服务器错误"));
-    } else if (code !== 0) {
+    } else if (code !== 200) {
       // 其他错误
       return Promise.reject(toError(message, `请求失败(code=${code ?? "unknown"})`));
     }
