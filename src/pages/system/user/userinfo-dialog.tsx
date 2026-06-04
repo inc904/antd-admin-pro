@@ -107,6 +107,8 @@ export const UserInfoDialog = ({
         onCancel={onClose}
         confirmLoading={confirmLoading}
         destroyOnHidden
+        okText={type === "create" ? "创建" : "保存"}
+        cancelText="取消"
       >
         <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} form={form}>
           <Form.Item label="Username" name="name" rules={rules.name}>
@@ -121,13 +123,13 @@ export const UserInfoDialog = ({
           <Form.Item label="Tag" name="tags">
             <Select options={tagOptions} mode="multiple" />
           </Form.Item>
-          <Form.Item label={null} wrapperCol={{ span: 20, offset: 4 }}>
+          {/* <Form.Item label={null} wrapperCol={{ span: 20, offset: 4 }}>
             <Space>
               <Button type="primary" onClick={handleSubmit} loading={confirmLoading}>
                 {type === "create" ? "创建" : "保存"}
               </Button>
             </Space>
-          </Form.Item>
+          </Form.Item> */}
         </Form>
       </Modal>
     </div>
