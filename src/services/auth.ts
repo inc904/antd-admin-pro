@@ -1,5 +1,5 @@
 import { request } from "./request";
 
-export const reqLogin = (data: { username: string; password: string }) => {
-  return request.post("/user/login", data);
+export const reqLogin = (data: Api.Auth.LoginParams) => {
+  return request.post<Api.Auth.LoginResult, Api.Auth.LoginParams>("/auth/login", data);
 };

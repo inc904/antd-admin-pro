@@ -6,12 +6,11 @@ import { mockUserList, appendMockUser, updateMockUser } from "./mock";
  */
 export const reqGetUserList: () => Promise<Api.User.UserListItem[]> = async () => {
   try {
-    return await request.get("/student");
+    return await request.get<Api.User.UserListItem[]>("/student");
   } catch (error) {
     console.warn("/student 接口不可用，回退本地 mock 数据;", error);
     return mockUserList;
   }
-  //   return request.get("/student/list");
 };
 
 /**
@@ -19,7 +18,7 @@ export const reqGetUserList: () => Promise<Api.User.UserListItem[]> = async () =
  */
 export const reqCreateUser = async (data: Api.User.UserInfo): Promise<Api.User.UserListItem> => {
   try {
-    return await request.post("/student", data);
+    return await request.post<Api.User.UserListItem, Api.User.UserInfo>("/student", data);
   } catch (error) {
     console.warn("student/create 接口不可用，回退本地 mock 创建;", error);
     return appendMockUser(data);
@@ -30,7 +29,7 @@ export const reqCreateUser = async (data: Api.User.UserInfo): Promise<Api.User.U
  * 获取用户详情
  */
 export const reqGetUserDetail = (id: number) => {
-  return request.get(`/student/${id}`);
+  return request.get<Api.User.UserListItem>(`/student/${id}`);
 };
 
 /**
@@ -38,7 +37,7 @@ export const reqGetUserDetail = (id: number) => {
  */
 export const reqUpdateUser = async (id: number, data: Api.User.UserInfo): Promise<Api.User.UserListItem> => {
   try {
-    return await request.patch(`/student/${id}`, data);
+    return await request.patch<Api.User.UserListItem, Api.User.UserInfo>(`/student/${id}`, data);
   } catch (error) {
     console.warn("student/update 接口不可用，回退本地 mock 更新;", error);
     return updateMockUser(id, data);
@@ -49,5 +48,5 @@ export const reqUpdateUser = async (id: number, data: Api.User.UserInfo): Promis
  * 删除用户
  */
 export const reqDeleteUser = (id: number) => {
-  return request.delete(`/student/${id}`);
+  return request.delete<void>(`/student/${id}`);
 };

@@ -1,5 +1,7 @@
 import axios from "axios";
+import type { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 
+import type { ApiBaseResponse } from "@/types/common/response";
 import { storage } from "@/utils/storage";
 
 function toError(input: unknown, fallback = "请求失败，请稍后重试"): Error {
@@ -8,7 +10,7 @@ function toError(input: unknown, fallback = "请求失败，请稍后重试"): E
   return new Error(fallback);
 }
 
-export const request = axios.create({
+const instance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:3000",
   timeout: 10000,
   headers: {
@@ -19,7 +21,7 @@ export const request = axios.create({
 /**
  * 请求拦截器
  */
-request.interceptors.request.use((config) => {
+instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   // 添加token
   const token = localStorage.getItem("token");
   if (token) {
@@ -31,7 +33,7 @@ request.interceptors.request.use((config) => {
 /**
  * 响应拦截器
  */
-request.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => {
     // 处理响应数据
     const { code, data, message } = response.data;
@@ -68,3 +70,23 @@ request.interceptors.response.use(
     return Promise.reject(toError(error, "未知错误"));
   },
 );
+
+type RequestConfig<D = unknown> = AxiosRequestConfig<D>;
+
+export const request = {
+  get<T>(url: string, config?: RequestConfig) {
+    return instance.get<ApiBaseResponse<T>, T>(url, config);
+  },
+  delete<T>(url: string, config?: RequestConfig) {
+    return instance.delete<ApiBaseResponse<T>, T>(url, config);
+  },
+  post<T, D = unknown>(url: string, data?: D, config?: RequestConfig<D>) {
+    return instance.post<ApiBaseResponse<T>, T, D>(url, data, config);
+  },
+  put<T, D = unknown>(url: string, data?: D, config?: RequestConfig<D>) {
+    return instance.put<ApiBaseResponse<T>, T, D>(url, data, config);
+  },
+  patch<T, D = unknown>(url: string, data?: D, config?: RequestConfig<D>) {
+    return instance.patch<ApiBaseResponse<T>, T, D>(url, data, config);
+  },
+};
