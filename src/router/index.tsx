@@ -15,6 +15,7 @@ import Monitor from "@/pages/dashboard/monitor";
 import Workspace from "@/pages/dashboard/workspace";
 import About from "@/pages/about";
 import UserManagement from "@/pages/system/user";
+import DeptManagement from "@/pages/system/dept";
 
 export const menuRoutes: AppRouteObject[] = [
   {
@@ -50,6 +51,11 @@ export const menuRoutes: AppRouteObject[] = [
         path: "user",
         Component: UserManagement,
         meta: { title: "用户管理", icon: "UserOutlined", hideInMenu: false },
+      },
+      {
+        path: "dept",
+        Component: DeptManagement,
+        meta: { title: "部门管理", icon: "UserOutlined", hideInMenu: false },
       },
     ],
   },

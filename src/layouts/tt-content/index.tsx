@@ -12,7 +12,7 @@ export default function TtContent({
   borderRadiusLG: number
 }) {
   return (
-    <Content style={{ margin: '24px 16px 0' }}>
+    <Content style={{ minWidth: 0, margin: '24px 16px 0' }}>
       <div
         style={{
           padding: 24,
