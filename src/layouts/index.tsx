@@ -13,6 +13,8 @@ const Page = ({ children }: { children?: React.ReactNode }) => {
 
   const currentYear = new Date().getFullYear()
 
+
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <TtSider />
