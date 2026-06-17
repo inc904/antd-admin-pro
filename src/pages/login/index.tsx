@@ -1,5 +1,5 @@
 import { Flex, Button, Checkbox, Form, Input, message, Select } from 'antd';
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import type { FormProps } from 'antd';
 
 import { storage } from "@/utils/storage";
@@ -16,6 +16,12 @@ export default function Login() {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
+
+  const token = localStorage.getItem("token");
+  if (token) {
+    // replace: true 表示替换当前历史记录，防止用户点击浏览器后退键又回到登录页
+    return <Navigate to="/" replace />;
+  }
 
   async function handleLogin() {
 
