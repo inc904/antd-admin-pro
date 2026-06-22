@@ -10,7 +10,7 @@ import AuthGuard from "./auth-guard";
 import NotFound from "@/pages/error-page/404";
 import Error403 from "@/pages/error-page/403";
 
-import Welcome from "@/pages/welcome";
+import Home from "@/pages/home";
 import Monitor from "@/pages/dashboard/monitor";
 import Workspace from "@/pages/dashboard/workspace";
 import About from "@/pages/about";
@@ -19,13 +19,13 @@ import DeptManagement from "@/pages/system/dept";
 
 export const menuRoutes: AppRouteObject[] = [
   {
-    path: "welcome",
-    Component: Welcome,
-    meta: { title: "欢迎", icon: "UserOutlined", hideInMenu: false },
+    path: "home",
+    Component: Home,
+    meta: { title: "首页", icon: "HomeOutlined", hideInMenu: false },
   },
   {
     path: "dashboard",
-    meta: { title: "仪表盘", icon: "UserOutlined", hideInMenu: false },
+    meta: { title: "仪表盘", icon: "FundOutlined", hideInMenu: false },
     children: [
       {
         index: true,
@@ -34,18 +34,18 @@ export const menuRoutes: AppRouteObject[] = [
       {
         path: "monitor",
         Component: Monitor,
-        meta: { title: "监控", icon: "UserOutlined", hideInMenu: false },
+        meta: { title: "监控", icon: "", hideInMenu: false },
       },
       {
         path: "workspace",
         Component: Workspace,
-        meta: { title: "工作台", icon: "UserOutlined", hideInMenu: false },
+        meta: { title: "工作台", icon: "", hideInMenu: false },
       },
     ],
   },
   {
     path: "system",
-    meta: { title: "系统管理", icon: "UserOutlined", hideInMenu: false },
+    meta: { title: "系统管理", icon: "SettingOutlined", hideInMenu: false },
     children: [
       {
         path: "user",
@@ -55,14 +55,14 @@ export const menuRoutes: AppRouteObject[] = [
       {
         path: "dept",
         Component: DeptManagement,
-        meta: { title: "部门管理", icon: "UserOutlined", hideInMenu: false },
+        meta: { title: "部门管理", hideInMenu: false },
       },
     ],
   },
   {
     path: "about",
     Component: About,
-    meta: { title: "关于", icon: "UserOutlined", hideInMenu: false },
+    meta: { title: "关于", icon: "ExclamationCircleOutlined", hideInMenu: false },
   },
 ];
 
@@ -81,7 +81,7 @@ export const appRoutes: AppRouteObject[] = [
       </AuthGuard>
     ),
     children: [
-      { index: true, element: <Navigate to="welcome" replace /> },
+      { index: true, element: <Navigate to="home" replace /> },
       ...menuRoutes,
       {
         path: "403",
